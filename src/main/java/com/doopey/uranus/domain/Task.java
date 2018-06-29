@@ -131,14 +131,16 @@ public class Task implements Serializable {
                 '}';
     }
 
-    public String toJSONString() {
+    public ObjectNode toJSONObj() {
         ObjectNode obj = mapper.createObjectNode();
         obj.put("appId", this.appId);
         obj.put("appName", this.appName);
         obj.put("totalNumber", this.totalNumber);
         obj.put("numberPerDay", this.numberPerDay);
         obj.put("initialNumber", this.initialNumber);
-        return obj.toString();
+        // TODO 把status改为具体描述？
+        obj.put("status", this.getStatus());
+        return obj;
     }
 
     public enum TaskStatus {
@@ -146,6 +148,7 @@ public class Task implements Serializable {
         PAUSED(5);
 
         private int value;
+
         TaskStatus(int status) {
             this.value = status;
         }

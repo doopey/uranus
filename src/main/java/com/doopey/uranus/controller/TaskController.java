@@ -44,7 +44,7 @@ public class TaskController {
         task.setNumberPerDay(numberPerDay);
         task.setInitialNumber(initialNumber);
         task = taskService.save(task);
-        return ResponseHelper.makeResponse(task.toJSONString());
+        return ResponseHelper.makeResponse(task.toJSONObj().toString());
     }
 
     @RequestMapping("")
@@ -52,7 +52,7 @@ public class TaskController {
         List<Task> tasks = taskService.getAllValidTasks();
         ArrayNode arrayNode = mapper.createArrayNode();
         for (Task task : tasks) {
-            arrayNode.add(task.toJSONString());
+            arrayNode.add(task.toJSONObj());
         }
         return ResponseHelper.makeResponse(arrayNode.toString());
     }
