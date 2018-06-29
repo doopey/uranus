@@ -2,6 +2,7 @@ package com.doopey.uranus.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -11,4 +12,5 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     public Optional<Task> findByAppId(String appId);
 
+    public List<Task> findTasksByValidTrue();
 }

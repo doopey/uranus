@@ -3,6 +3,8 @@ package com.doopey.uranus.service;
 import com.doopey.uranus.domain.Device;
 import com.doopey.uranus.domain.DeviceRepository;
 import com.google.common.collect.Lists;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,8 @@ import java.util.List;
 @Transactional
 public class DeviceServiceImpl implements IDeviceService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeviceServiceImpl.class);
+
     @Autowired
     DeviceRepository deviceRepository;
 
@@ -28,6 +32,10 @@ public class DeviceServiceImpl implements IDeviceService {
     @Override
     public List<Device> getDevices(int start, int limit) {
         int totalNum = (int) deviceRepository.count();
+        if (start > totalNum) {
+            LOGGER.error("start > totalNum: {} > {}", start, totalNum);
+            return null;
+        }
         List<Device> result = Lists.newArrayList();
         while (start + limit - 1 > totalNum) {
             result.addAll(deviceRepository.findDevicesByValidTrueAndIdBetween(start, totalNum));
@@ -39,7 +47,7 @@ public class DeviceServiceImpl implements IDeviceService {
     }
 
     public static void main(String[] args) {
-        int start = 2;
+        int start = 7;
         int limit = 6;
         int totalNum = 3;
         while (start + limit - 1 > totalNum) {

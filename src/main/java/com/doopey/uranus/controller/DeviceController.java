@@ -38,6 +38,9 @@ public class DeviceController {
             return ResponseHelper.makeErrorResponse(PackResponse.Result.PARAM_MISSING);
         }
         List<Device> devices = deviceService.getDevices(position, num);
+        if (devices == null) {
+            return ResponseHelper.makeErrorResponse(PackResponse.Result.ERROR);
+        }
         ArrayNode arrayNode = mapper.createArrayNode();
         for (Device device : devices) {
             arrayNode.add(toJsonObject(device));

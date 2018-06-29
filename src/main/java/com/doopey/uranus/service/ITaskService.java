@@ -13,6 +13,8 @@ public interface ITaskService {
 
     public Task save(Task task);
 
+    public List<Task> getAllValidTasks();
+
     public boolean delete(String appId);
 
     public boolean pause(String appId);

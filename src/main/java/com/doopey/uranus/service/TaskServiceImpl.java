@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created on 2018/5/24.
  */
@@ -48,6 +50,11 @@ public class TaskServiceImpl implements ITaskService {
         task.setStatus(Task.TaskStatus.PAUSED.getValue());
         taskRepository.save(task);
         return true;
+    }
+
+    @Override
+    public List<Task> getAllValidTasks() {
+        return taskRepository.findTasksByValidTrue();
     }
 
 }

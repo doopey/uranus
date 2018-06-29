@@ -1,6 +1,6 @@
 package com.doopey.uranus.service;
 
-import org.springframework.stereotype.Service;
+import com.doopey.uranus.domain.TaskDotRecord;
 
 /**
  * Created on 2018/5/25.
@@ -8,4 +8,5 @@ import org.springframework.stereotype.Service;
 public interface IDotService {
 
     public boolean dot(String appId);
+
 }

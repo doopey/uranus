@@ -1,13 +1,19 @@
 package com.doopey.uranus.controller;
 
+import com.doopey.uranus.domain.Device;
 import com.doopey.uranus.domain.Task;
 import com.doopey.uranus.service.IDotService;
 import com.doopey.uranus.service.ITaskService;
 import com.doopey.uranus.utils.PackResponse;
 import com.doopey.uranus.utils.ResponseHelper;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * Created on 2018/5/24.
@@ -17,18 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/task")
 public class TaskController {
 
+    private static final ObjectMapper mapper = new ObjectMapper();
+
     @Autowired
     ITaskService taskService;
 
     @Autowired
     IDotService dotService;
-
-    @RequestMapping("/test")
-    public Task getTaskList() {
-        Task task = taskService.findOne("123");
-        System.out.println("##########" + task);
-        return task;
-    }
 
     @RequestMapping("/add")
     public Object addTask(String appId, String appName,
@@ -44,6 +45,16 @@ public class TaskController {
         task.setInitialNumber(initialNumber);
         task = taskService.save(task);
         return ResponseHelper.makeResponse(task.toJSONString());
+    }
+
+    @RequestMapping("")
+    public Object getAll() {
+        List<Task> tasks = taskService.getAllValidTasks();
+        ArrayNode arrayNode = mapper.createArrayNode();
+        for (Task task : tasks) {
+            arrayNode.add(task.toJSONString());
+        }
+        return ResponseHelper.makeResponse(arrayNode.toString());
     }
 
     @RequestMapping("/delete")
@@ -63,4 +74,5 @@ public class TaskController {
         boolean res = dotService.dot(appId);
         return ResponseHelper.makeResponse(Boolean.toString(res));
     }
+
 }
