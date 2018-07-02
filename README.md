@@ -1,4 +1,3 @@
-# uranus
 ## 上传ip
 - url：/ip/upload
 - 说明：会保存在内存里，服务重启后请重新上传。
@@ -61,20 +60,41 @@ initialNumber | int | true | 500 | 初始化数量
 ## 删除任务
 - url：/task/delete
 - 参数：
+ 
+字段 | 类型|是否必须 | 示例 | 备注
+---|---|---|---|---
+appId | String | true | 3543 | 
 - 返回data字段
 
 ## 暂停任务
 - url：/task/pause
 - 说明：把status字段更新为5
 - 参数：
+
+字段 | 类型|是否必须 | 示例 | 备注
+---|---|---|---|---
+appId | String | true | 3543 | 
 - 返回data字段
 
 ## 打点
 - url：/task/dot
+- 说明：对指定appId进行打点，记录每次加1
 - 参数：
+
+字段 | 类型|是否必须 | 示例 | 备注
+---|---|---|---|---
+appId | String | true | 3543 | 
 - 返回data字段
 
 
+## 打点列表
+- url：/task/dot/list
+- 参数：无
+- 返回data字段为TaskDotRecord的List，其中TaskDotRecord的字段：
 
-
+字段 | 类型 | 示例 | 备注
+---|---|---|---
+appId | String | 3543 | 
+date | String | 2018-06-28 | 日期
+dotCount | int | 2 | 
 

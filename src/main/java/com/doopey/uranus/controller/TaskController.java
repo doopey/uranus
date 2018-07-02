@@ -2,6 +2,7 @@ package com.doopey.uranus.controller;
 
 import com.doopey.uranus.domain.Device;
 import com.doopey.uranus.domain.Task;
+import com.doopey.uranus.domain.TaskDotRecord;
 import com.doopey.uranus.service.IDotService;
 import com.doopey.uranus.service.ITaskService;
 import com.doopey.uranus.utils.PackResponse;
@@ -75,4 +76,13 @@ public class TaskController {
         return ResponseHelper.makeResponse(Boolean.toString(res));
     }
 
+    @RequestMapping("/dot/list")
+    public Object taskDotList() {
+        List<TaskDotRecord> list = dotService.list();
+        ArrayNode arrayNode = mapper.createArrayNode();
+        for (TaskDotRecord dot : list) {
+            arrayNode.add(dot.toJSONObj());
+        }
+        return ResponseHelper.makeResponse(arrayNode.toString());
+    }
 }

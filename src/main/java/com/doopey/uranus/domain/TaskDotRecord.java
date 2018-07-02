@@ -1,5 +1,8 @@
 package com.doopey.uranus.domain;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import javax.persistence.*;
 
 /**
@@ -9,6 +12,8 @@ import javax.persistence.*;
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"appId", "date"}))
 public class TaskDotRecord {
+
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,5 +58,13 @@ public class TaskDotRecord {
 
     public void setDotCount(int dotCount) {
         this.dotCount = dotCount;
+    }
+
+    public ObjectNode toJSONObj() {
+        ObjectNode obj = mapper.createObjectNode();
+        obj.put("appId", this.appId);
+        obj.put("date", this.date);
+        obj.put("dotCount", this.dotCount);
+        return obj;
     }
 }
